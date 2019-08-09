@@ -1,0 +1,57 @@
+<!---
+@author Ken Murray
+@email virtualjam@gmail.com
+@date 8/7/19
+@Code Markup Challenge utilizing FxtJS framework (https://bitbucket.org/virtualjam/fxt) developed by Ken Murray
+--->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Code Markup Challenge</title>
+
+        <script type="application/javascript" src="Globals.js"></script>
+        <script type="application/javascript" src="Fxt.js"></script>
+        <script type="application/javascript" src="Utils.js"></script>
+        <script type="application/javascript" src="Remoting.js"></script>
+        <script type="application/javascript" src="Viewport.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <script type="application/javascript">
+            (function () {
+                window.addEventListener("load", () => {
+                    Fxt.logger("load FIRED");
+
+                    /*Create viewport holder*/
+                    Viewport.createViewport();
+
+                    /*Create overlay holder*/
+                    Viewport.createViewportUI();
+
+                    /*Grab JSON file and parse it*/
+                    Remoting.getList();
+
+                    window.onbeforeunload = () => {
+                        Utils.killApplication();
+                    };
+
+                    window.addEventListener('pagehide', () => {
+                        Utils.killApplication();
+                    });
+
+                    window.onresize = Utils.windowResized;
+                    window.onload = Utils.windowResized;
+                });
+            })();
+
+        </script>
+    </head>
+    <body>
+        <div id="appDiv"></div>
+    </body>
+</html>
+
