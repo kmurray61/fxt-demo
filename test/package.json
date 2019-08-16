@@ -1,0 +1,11 @@
+{
+  "name": "test_code_markup_challenge",
+  "version": "1.0.0",
+  "description": "unit test for code markup challenge",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Ken Murray",
+  "license": "ISC"
+}

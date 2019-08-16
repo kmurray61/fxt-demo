@@ -1,0 +1,22 @@
+{
+  "name": "code_markup_challenge",
+  "version": "1.0.0",
+  "description": "Pure JavaScript implementation of the code markup challenge utilizing FxtJS framework (https://bitbucket.org/virtualjam/fxt) developed by Ken Murray",
+  "main": "Fxt.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "xhr2": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://virtualjam@bitbucket.org/virtualjam/code_markup_challenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/virtualjam/code_markup_challenge#readme"
+}

@@ -9,3 +9,4 @@ global.items = [];
 global.item = {};
 global.curPosX = -5;
 global.curPosXCnt = 1;
+module = {};

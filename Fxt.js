@@ -5,8 +5,8 @@
  * Simplifies common JS calls to DOM objects in a familiar format.
  * Current item depth is 10 levels MAX
  * @author Ken Murray
- * @date 4/25/19
- * @version 2.0.04
+ * @date 8/16/19
+ * @version 2.0.05
  */
 
 const Fxt = {
@@ -382,5 +382,8 @@ const Fxt = {
     
     logger : function ( msg ) {
         console.log( msg );
+        return msg;
     },
 };
+
+module.exports = Fxt;
