@@ -1,6 +1,6 @@
 # Fxt-Demo
 
-Pure JavaScript implementation of a code markup challenge I did utilizing FxtJS framework developed by Ken Murray
+Pure JavaScript implementation of a code markup challenge I did a while back utilizing FxtJS framework I developed to replace ExtJS and an alternative to React or Vue 
 
 Live working version is located at https://virtualjam.net/challenge/
 Responsive experience – 1 column on mobile to 3 columns on desktop
