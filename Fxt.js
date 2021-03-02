@@ -1,20 +1,28 @@
 /**
  * FXT ( Flash Extensible Technique )
- * Inspired by ExtJS and Flash/ActionScript. 
- * Creates a dynamic UI like EXTJS ( That was inspired by FlashBuilder [Flex] ) 
- * Simplifies common JS calls to DOM objects in a familiar format.
+ * Inspired by ExtJS and Flash/ActionScript.
+ * Creates a dynamic UI similar to EXTJS ( Sencha ).
+ * Simplifies common JS calls to DOM objects in a familiar format inspired by Flash and FlexBuilder.
  * Current item depth is 10 levels MAX
  * @author Ken Murray
- * @date 8/16/19
- * @version 2.0.05
+ * @email fb3@virtualjam.net
+ * @createdate 2/15/19
+ * @updatedate 1/24/21
+ * @version 3.0.02
  */
 
-const Fxt = {
+var Fxt = {
     create : function (element, attribute, inner) {
         try {
-            let curEleID = attribute.id;
             let renderTo = attribute.renderTo;
             let callBack = attribute.afterrender;
+
+            attribute.renderTo = '';
+            delete attribute['renderTo'];
+
+            attribute.afterrender = '';
+            delete attribute['afterrender'];
+
 
             if ( typeof( element ) === "undefined" ) {
                 return false;
@@ -28,7 +36,7 @@ const Fxt = {
 
             if ( typeof(attribute) === 'object' ) {
                 for ( let key in attribute ) {
-                    if ( attribute.hasOwnProperty(key)) {
+                    if ( el != null && el !== '' ) {
                         el.setAttribute(key, attribute[key]);
                     }
                 }
@@ -39,61 +47,62 @@ const Fxt = {
             }
 
             for ( let k = 0; k < inner.length; k++ ) {
-                if ( typeof inner[k] != 'undefined' ) {
+                if ( typeof inner[k] != 'undefined' && inner[k] !== '' ) {
                     if ( inner[k].tagName ) {
-                        el.appendChild(inner[k]);
-                    } 
+                        if ( el != null && el !== '' ) {
+                            el.appendChild(inner[k]);
+                        }
+                    }
                     else {
-                        el.appendChild( document.createTextNode(inner[k]) );
+                        if ( el != null && el !== '' ) {
+                            el.appendChild(document.createTextNode(inner[k]));
+                        }
                     }
                 }
             }
 
-            let currentDiv = document.getElementById(renderTo);
-            currentDiv.appendChild(el);
+            if ( renderTo === 'body' ) {
+                if ( el != null ) {
+                    document.body.appendChild(el);
+                }
+            }
+            else {
+                let currentDiv = document.getElementById(renderTo);
+                if ( el != null ) {
+                    currentDiv.appendChild(el);
+                }
+            }
 
             if ( callBack ) {
                 callBack();
             }
 
-            if ( attribute.items && attribute.items.length ) {	
-                for ( let i = 0; i < attribute.items.length; i++ ) {    
+            if ( attribute.items && attribute.items.length ) {
+                for ( let i = 0; i < attribute.items.length; i++ ) {
                     this.createChildEle( attribute.items[i] );
-
-                    if ( attribute.items[i].items && attribute.items[i].items.length ) {	
+                    if ( attribute.items[i].items && attribute.items[i].items.length ) {
                         for ( let j = 0; j < attribute.items[i].items.length; j++ ) {
                             this.createChildEle( attribute.items[i].items[j] );
-
                             if ( typeof attribute.items[i].items[j].items != 'undefined' && attribute.items[i].items[j].items.length ) {
                                 for ( let k = 0; k < attribute.items[i].items[j].items.length; k++ ) {
                                     this.createChildEle( attribute.items[i].items[j].items[k] );
-
                                     if ( typeof attribute.items[i].items[j].items[k].items != 'undefined' && attribute.items[i].items[j].items[k].items.length ) {
                                         for ( let l = 0; l < attribute.items[i].items[j].items[k].items.length; l++ ) {
                                             this.createChildEle( attribute.items[i].items[j].items[k].items[l] );
-                                            
                                             if ( typeof attribute.items[i].items[j].items[k].items[l].items != 'undefined' && attribute.items[i].items[j].items[k].items[l].items.length ) {
                                                 for ( let m = 0; m < attribute.items[i].items[j].items[k].items[l].items.length; m++ ) {
                                                     this.createChildEle( attribute.items[i].items[j].items[k].items[l].items[m] );
-
-                                                    if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items != 'undefined' &&     attribute.items[i].items[j].items[k].items[l].items[m].items.length) {
-                                                        
+                                                    if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items != 'undefined' &&  attribute.items[i].items[j].items[k].items[l].items[m].items.length) {
                                                         for ( let n = 0; n < attribute.items[i].items[j].items[k].items[l].items[m].items.length; n++ ) {
                                                             this.createChildEle( attribute.items[i].items[j].items[k].items[l].items[m].items[n] );
-                                                            
-                                                            if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items[n].items != 'undefined' &&     attribute.items[i].items[j].items[k].items[l].items[m].items[n].items.length) {
-
+                                                            if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items[n].items != 'undefined' && attribute.items[i].items[j].items[k].items[l].items[m].items[n].items.length) {
                                                                 for ( let o = 0; o < attribute.items[i].items[j].items[k].items[l].items[m].items[n].items.length; o++ ) {
                                                                     this.createChildEle( attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o] );
-                                                                    
-                                                                    if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items != 'undefined' &&     attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items.length) {
-
-                                                                        for ( let p = 0; p < attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items.length; p++ ) { 
+                                                                    if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items != 'undefined' && attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items.length) {
+                                                                        for ( let p = 0; p < attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items.length; p++ ) {
                                                                             this.createChildEle( attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p] );
-                                                                            
                                                                             if ( typeof attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p].items != 'undefined' &&     attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p].items.length) {
-
-                                                                                for ( let q = 0; q < attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p].items.length; q++ ) { 
+                                                                                for ( let q = 0; q < attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p].items.length; q++ ) {
                                                                                     this.createChildEle( attribute.items[i].items[j].items[k].items[l].items[m].items[n].items[o].items[p].items[q] );
                                                                                 }
                                                                             }
@@ -107,7 +116,7 @@ const Fxt = {
                                             }
                                         }
                                     }
-                                } 
+                                }
                             }
                         }
                     }
@@ -118,30 +127,59 @@ const Fxt = {
             this.logger("createElement catch e = " + e );
         }
     },
-    
+
     createChildEle : function ( items ) {
         try {
-            if ( typeof items.value === 'undefined' ) {
-                items.value = '';
-            }
+            //this.logger("createChildEle FIRED items.id = " + items.id );
+            let myObj = {};
+
+            myObj.id = items.id;
+            myObj.renderTo = items.renderTo;
 
             if ( typeof items.text === 'undefined' ) {
                 items.text = '';
             }
+            else {
+                if( items.text !== '') {
+                    myObj.text = items.text;
+                }
+            }
 
-            let childEle = this.create(items.xtype, 
-                {
-                    id          : items.id, 
-                    renderTo    : items.renderTo,
-                    href        : items.href,
-                    style       : items.style,
-                    value       : items.value,
-                    src         : items.src,
-                    afterrender : items.afterrender
-                },
-                items.text, items.afterrender,
-            );
-            
+            if ( typeof items.style === 'undefined' ) {
+                items.style = '';
+            }
+            else {
+                if( items.style !== '') {
+                    myObj.style = items.style;
+                }
+            }
+
+            if ( typeof items.afterrender === 'undefined' ) {
+                items.afterrender = '';
+            }
+            else {
+                if( items.afterrender !== '') {
+                    myObj.afterrender = items.afterrender;
+                }
+            }
+
+            if ( typeof items.value === 'undefined' ) {
+                items.value = '';
+            }
+            else {
+                if( items.value !== '' ) {
+                    myObj.value = items.value;
+                }
+            }
+
+            items.class = '';
+            if ( typeof items.cls !== 'undefined' ) {
+                items.class = items.cls;
+                myObj.class = items.cls;
+            }
+
+            this.create(items.xtype, myObj, items.text, items.afterrender);
+
         }
         catch ( e ) {
             this.logger("createChildEle catch e = " + e );
@@ -150,7 +188,7 @@ const Fxt = {
 
     getCmp : function ( comp ) {
         try {
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById ) {
                     if ( document.getElementById( comp ) != null ) {
                         return true;
@@ -170,13 +208,13 @@ const Fxt = {
             return false;
         }
         catch ( e ) {
-            console.log("getCmp catch e = " + e ); 
+            console.log("getCmp catch e = " + e );
         }
     },
 
     setCmp : function ( comp ) {
         try {
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById ) {
                     return document.getElementById( comp );
                 }
@@ -190,46 +228,46 @@ const Fxt = {
             return null;
         }
         catch ( e ) {
-            console.log("setCmp catch e = " + e ); 
+            console.log("setCmp catch e = " + e );
         }
     },
 
     setAttribute : function ( comp , attr , value ) {
         try {
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById( comp ) != null ) {
                     document.getElementById( comp ).setAttribute( attr, value );
                 }
             }
         }
         catch ( e ) {
-            console.log("setAttribute catch e = " + e ); 
+            console.log("setAttribute catch e = " + e );
         }
     },
 
     setText : function ( comp , value ) {
         try {
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById( comp ) != null ) {
                     document.getElementById( comp ).innerHTML = value;
                 }
             }
         }
         catch ( e ) {
-            console.log("setText catch e = " + e ); 
+            console.log("setText catch e = " + e );
         }
     },
 
     appendText : function ( comp , value ) {
         try {
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById( comp ) != null ) {
                     document.getElementById( comp ).innerHTML += value;
                 }
             }
         }
         catch ( e ) {
-            console.log("setText catch e = " + e ); 
+            console.log("setText catch e = " + e );
         }
     },
 
@@ -238,15 +276,15 @@ const Fxt = {
             if ( comp == null || style == null || value == null )
                 return;
 
-            if ( comp && comp !== "" && comp !== -1 ) {
+            if ( comp && comp != null && comp != "" && comp != -1 ) {
                 if ( document.getElementById( comp ) != null ) {
                     switch ( style ) {
                         case "width":
-                            if ( value === "100%" ) {
+                            if ( value == "100%" ) {
                                 document.getElementById( comp ).style.cssText += 'width:'+value+'!important;';
                             }
                             else {
-                                if ( value.toString().indexOf("%") !== -1 ) {
+                                if ( value.toString().indexOf("%") != -1 ) {
                                     document.getElementById( comp ).style.cssText += 'width:'+value+'!important;';
                                 }
                                 else {
@@ -255,14 +293,14 @@ const Fxt = {
                             }
                             break;
                         case "height":
-                            if ( value === "100%" ) {
+                            if ( value == "100%" ) {
                                 document.getElementById( comp ).style.cssText += 'height:'+value+'!important;';
                             }
                             else {
-                                if ( value.toString().indexOf("%") !== -1 ) {
+                                if ( value.toString().indexOf("%") != -1 ) {
                                     document.getElementById( comp ).style.cssText += 'height:'+value+'!important;';
                                 }
-                                else if ( value.toString().indexOf("auto") !== -1 ) {
+                                else if ( value.toString().indexOf("auto") != -1 ) {
                                     document.getElementById( comp ).style.cssText += 'height:'+value+'!important;';
                                 }
                                 else {
@@ -274,7 +312,7 @@ const Fxt = {
                             document.getElementById( comp ).style.cssText += 'opacity:'+value+'!important;';
                             break;
                         case "visible":
-                            if ( value.toString() === "true" ) {
+                            if ( value.toString() == "true" ) {
                                 document.getElementById( comp ).style.cssText += 'visibility:visible!important;';
                             }
                             else {
@@ -349,25 +387,26 @@ const Fxt = {
                             break;
                         case "appendChild":
                             document.getElementById( comp ).appendChild(value);
-                            break;	
+                            break;
                         case "className":
                             document.getElementById( comp ).className = value;
-                            break;	
+                            break;
                         case "setText":
                             document.getElementById( comp ).innerHTML = value;
-                            break;	
+                            break;
                         case "innerHTML":
                             document.getElementById( comp ).innerHTML = value;
-                            break;		
+                            break;
                         case "borderColor":
                             document.getElementById( comp ).style.borderColor = value;
                             break;
+
                     }
                 }
             }
         }
         catch ( e ) {
-            console.log("setStyle catch e = " + e ); 
+            console.log("setStyle catch e = " + e );
         }
     },
 
@@ -379,11 +418,10 @@ const Fxt = {
             Fxt.logger( "getURL catch e = " + e.toString() );
         }
     },
-    
-    logger : function ( msg ) {
-        console.log( msg );
-        return msg;
-    },
-};
 
-module.exports = Fxt;
+    logger : function ( msg ) {
+        console.log( "Logger: " + msg );
+    },
+}
+
+
